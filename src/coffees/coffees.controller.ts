@@ -8,6 +8,8 @@ import {
   HttpCode,
   HttpStatus,
   Res,
+  Patch,
+  Delete,
 } from '@nestjs/common';
 
 @Controller('coffees')
@@ -30,5 +32,13 @@ export class CoffeesController {
   dep(@Res() response) {
     //OverRides Httpcode from above with I am a teapot.
     response.status(418).send('I magicallly became a teapot')
+  }
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() body){
+  return `This action updates #${id} coffee`
+  }
+  @Delete(':id')
+  remove(@Param('id') id: string){
+  return `This action deletes #${id} coffee`
   }
 }
