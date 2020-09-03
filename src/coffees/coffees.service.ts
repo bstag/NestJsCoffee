@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Coffee } from './entities/coffee.entity';
 import { HttpException } from '@nestjs/common';
 import { HttpStatus } from '@nestjs/common';
+import { NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class CoffeesService {
@@ -14,15 +15,18 @@ export class CoffeesService {
     },
   ];
 
-  findAll():Coffee[] {
+  findAll(): Coffee[] {
     return this.coffees;
   }
 
-  findOne(id: string):Coffee {
-      const coffee = this.coffees.find(item => item.id === +id);
-      if (!coffee) {
-          throw new HttpException(`Coffee # ${id} is not found`,HttpStatus.NOT_FOUND);
-      }
+  findOne(id: string): Coffee {
+    const coffee = this.coffees.find(item => item.id === +id);
+    if (!coffee) {
+      //Nest Js way
+      throw new NotFoundException(`Coffee # ${id} is not found`);
+      //Http Way
+      //throw new HttpException(`Coffee # ${id} is not found`,HttpStatus.NOT_FOUND);
+    }
     return coffee;
   }
 
@@ -37,7 +41,7 @@ export class CoffeesService {
     }
   }
 
-  remove(id: string):void {
+  remove(id: string): void {
     const coffeeIndex = this.coffees.findIndex(item => item.id === +id);
     if (coffeeIndex >= 0) {
       this.coffees.splice(coffeeIndex, 1);
