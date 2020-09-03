@@ -10,35 +10,41 @@ import {
   Res,
   Patch,
   Delete,
+  Query,
 } from '@nestjs/common';
+import { CoffeesService } from './coffees.service';
+import { Coffee } from './entities/coffee.entity';
 
 @Controller('coffees')
 export class CoffeesController {
+  constructor(private readonly coffeesService: CoffeesService) {}
   @Get()
-  findAll(): string {
-    return 'allcoffes';
+  findAll(@Query() paginationQuery): Coffee[]{
+    // I set some defaults to pafe pull
+    const { limit = 10, offset = 0 } = paginationQuery;
+    return this.coffeesService.findAll();
   }
   @Get(':id')
-  findOne(@Param('id') id: string | number | null): string {
-    return `this is the id ${id} `;
+  findOne(@Param('id') id: string): Coffee {
+    return this.coffeesService.findOne(id)
   }
   @Post()
   create(@Body() body: unknown): unknown {
-    return body;
+    return this.coffeesService.create(body)
   }
- 
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() body) {
+    return this.coffeesService.update(id,body)
+  }
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.coffeesService.remove(id)
+  }
+
   @Post('brew')
   @HttpCode(HttpStatus.GONE)
   dep(@Res() response) {
     //OverRides Httpcode from above with I am a teapot.
-    response.status(418).send('I magicallly became a teapot')
-  }
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() body){
-  return `This action updates #${id} coffee`
-  }
-  @Delete(':id')
-  remove(@Param('id') id: string){
-  return `This action deletes #${id} coffee`
+    response.status(418).send('I magicallly became a teapot');
   }
 }
