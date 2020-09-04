@@ -21,25 +21,25 @@ import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 export class CoffeesController {
   constructor(private readonly coffeesService: CoffeesService) {}
   @Get()
-  findAll(@Query() paginationQuery): Coffee[]{
+  findAll(@Query() paginationQuery): Promise<Coffee[]>{
     // I set some defaults to pafe pull
     const { limit = 10, offset = 0 } = paginationQuery;
     return this.coffeesService.findAll();
   }
   @Get(':id')
-  findOne(@Param('id') id: string): Coffee {
+  findOne(@Param('id') id: string): Promise<Coffee> {
     return this.coffeesService.findOne(id)
   }
   @Post()
-  create(@Body() createCoffeeDto: CreateCoffeeDto): unknown {
+  create(@Body() createCoffeeDto: CreateCoffeeDto): Promise<Coffee> {
     return this.coffeesService.create(createCoffeeDto)
   }
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCoffeeDto: UpdateCoffeeDto) {
+  update(@Param('id') id: string, @Body() updateCoffeeDto: UpdateCoffeeDto):Promise<Coffee> {
     return this.coffeesService.update(id,updateCoffeeDto)
   }
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: string): Promise<Coffee> {
     return this.coffeesService.remove(id)
   }
 
