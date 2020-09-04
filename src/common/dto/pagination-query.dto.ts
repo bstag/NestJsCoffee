@@ -1,10 +1,11 @@
-//import { Type } from "@nestjs/common";
+import { Type } from "@nestjs/common";
 import { IsOptional, IsPositive } from 'class-validator';
 
 export class PaginationQueryDto {
   @IsOptional()
   @IsPositive()
-  limit: number;
+  
+  limit: number; 
 
   @IsOptional()
   @IsPositive()
