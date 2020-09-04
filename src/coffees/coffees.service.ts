@@ -14,11 +14,11 @@ export class CoffeesService {
   ) {}
 
   async findAll(): Promise<Coffee[]> {
-    return await this.coffeeRepository.find();
+    return await this.coffeeRepository.find({relations:['flavors']});
   }
 
   async findOne(id: string): Promise<Coffee> {
-    const coffee = await this.coffeeRepository.findOne(id);
+    const coffee = await this.coffeeRepository.findOne(id,{relations:['flavors']});
     if (!coffee) {
       //Nest Js way
       throw new NotFoundException(`Coffee # ${id} is not found`);
