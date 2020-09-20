@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CoffeesModule } from './coffees/coffees.module';
+import { CoffeeRatingModule } from './coffee-rating/coffee-rating.module';
 
 //Move to config file in the long run as if this was a prod system
 
@@ -19,6 +20,7 @@ import { CoffeesModule } from './coffees/coffees.module';
       autoLoadEntities: true,
       synchronize: true, // disable in production and move to migrations.
     }),
+    CoffeeRatingModule,
   ],
   controllers: [AppController],
   providers: [AppService],
